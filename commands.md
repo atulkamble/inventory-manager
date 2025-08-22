@@ -142,3 +142,24 @@ docker build -t public.ecr.aws/x4u2n2b1/atulkamble/inventory-manager:latest .
 docker push public.ecr.aws/x4u2n2b1/atulkamble/inventory-manager:latest 
 
 ```
+
+ stage('Deploy to EKS') {
+      steps {
+        // Option A: Update image directly on the Deployment (recommended; no file edits)
+        sh """
+          kubectl set image deployment/inventory-manager \
+            inventory-manager=${FULL_IMAGE} \
+            --record
+          kubectl rollout status deployment/inventory-manager --timeout=120s
+        """
+
+        // Option B (alternative): apply manifests from repo (uncomment to use)
+        // sh '''
+        //   # If you prefer applying manifests, make sure the image line is dynamic
+        //   # sed -i works on GNU; for macOS agents use: sed -i '' ...
+        //   sed -i "s@^\\s*image:.*@    image: ${FULL_IMAGE}@g" k8s/deployment.yaml
+        //   kubectl apply -f k8s/
+        //   kubectl rollout status deployment/inventory-manager --timeout=120s
+        // '''
+      }
+    }
