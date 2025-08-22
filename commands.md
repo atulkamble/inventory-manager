@@ -142,6 +142,33 @@ docker build -t public.ecr.aws/x4u2n2b1/atulkamble/inventory-manager:latest .
 docker push public.ecr.aws/x4u2n2b1/atulkamble/inventory-manager:latest 
 
 ```
+// Jenkins Phase 
+
+1. Install and configure Jenkins 
+
+git clone https://github.com/atulkamble/inventory-manager.git
+cd inventory-manager
+chmod +x jenkins-install.sh
+./jenkins-install.sh
+
+http://instance-ip:8080
+
+admin,admin
+
+Plugins - docker, docker pipeline, Blue Ocean
+Tools - myDocker, myMaven 
+
+2. Configure Docker and Github credentials in setting.
+example:
+
+dockerhub-creds
+
+3. Create pipeline - inventory-manager 
+4. git credentials configure - from scm 
+url - https://github.com/atulkamble/inventory-manager.git
+branch - main
+5. build pipeline 
+6. console output 
 
  stage('Deploy to EKS') {
       steps {
