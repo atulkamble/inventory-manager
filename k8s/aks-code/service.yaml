@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-manager-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: inventory
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
